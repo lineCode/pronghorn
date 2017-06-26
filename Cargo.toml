@@ -5,5 +5,6 @@ authors = ["Mitch Guthrie <mitch@mentalbrew.com>"]
 homepage = "http://pronghornframework.com"
 categories = ["web-programming", "web-programming::http-server"]
 license = "Apache-2.0"
+description = "A simple web development framework"
 
 [dependencies]
