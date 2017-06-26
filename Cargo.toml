@@ -1,10 +1,13 @@
 [package]
 name = "pronghorn"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Mitch Guthrie <mitch@mentalbrew.com>"]
 homepage = "http://pronghornframework.com"
+repository = "https://github.com/pronghornframework/pronghorn"
 categories = ["web-programming", "web-programming::http-server"]
 license = "Apache-2.0"
 description = "A simple web development framework"
 
 [dependencies]
+hyper = "0.11"
+futures = "0.1"
