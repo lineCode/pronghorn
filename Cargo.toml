@@ -1,0 +1,9 @@
+[package]
+name = "pronghorn"
+version = "0.1.0"
+authors = ["Mitch Guthrie <mitch@mentalbrew.com>"]
+homepage = "http://pronghornframework.com"
+categories = ["web-programming", "web-programming::http-server"]
+license = "Apache-2.0"
+
+[dependencies]
