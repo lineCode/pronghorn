@@ -1,12 +1,12 @@
 use std::sync::Arc;
 use std::net::SocketAddr;
-use hyper::server::{Http, Request, Response, Service};
+use hyper::server::{Http, Service};
 use hyper::error::Error;
 use futures;
+use hyper::StatusCode;
 
 use router::Router;
 
-#[derive(Debug)]
 pub struct Server {
     pub router: Router
 }
@@ -27,14 +27,19 @@ impl Server {
 }
 
 impl Service for Server {
-    type Request = Request;
-    type Response = Response;
+    type Request = ::Request;
+    type Response = ::Response;
     type Error = Error;
-    type Future = futures::future::FutureResult<Self::Response, Self::Error>;
+    type Future = ::Future;
 
-    fn call(&self, _req: Request) -> Self::Future {
-        let mut res = Response::new();
-        res.set_body("Pronghorn says \"Hello, World!\"");
-        futures::future::ok(res)
+    fn call(&self, req: ::Request) -> ::Future {
+        for h in self.router.routes.iter() {
+            if h.method == *req.method() && h.path == *req.path() {
+                return (h.handler)(&req);
+            }
+        }
+        let mut notfound = ::Response::new();
+        notfound.set_status(StatusCode::NotFound);
+        return futures::future::ok(notfound);
     }
 }

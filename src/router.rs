@@ -1,4 +1,6 @@
-#[derive(Debug)]
+use hyper::Method;
+use hyper::server::Request;
+
 pub struct Router {
     pub routes: Vec<Route>
 }
@@ -10,22 +12,23 @@ impl Router {
         }
     }
 
-    pub fn get(&mut self, path: &str) {
-        self.routes.push(Route::new("get", path));
+    pub fn get(&mut self, path: &str, handler: fn(&Request) -> ::Future) {
+        self.routes.push(Route::new(Method::Get, path, handler));
     }
 }
 
-#[derive(Debug)]
 pub struct Route {
-    pub method: String,
-    pub path: String
+    pub method: Method,
+    pub path: String,
+    pub handler: fn(&Request) -> ::Future
 }
 
 impl Route {
-    pub fn new(method: &str, path: &str) -> Route {
+    pub fn new(method: Method, path: &str, handler: fn(&Request) -> ::Future) -> Route {
         Route {
-            method: String::from(method),
-            path: String::from(path)
+            method: method,
+            path: String::from(path),
+            handler: handler
         }
     }
 }
